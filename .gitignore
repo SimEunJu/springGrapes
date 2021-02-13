@@ -35,4 +35,4 @@ out/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/jwt.propertise
+/src/main/resources/security.propertise

@@ -1,9 +1,9 @@
 package com.sej.grapes.config;
 
-import com.sej.grapes.jwt.JwtAccessDeniedHandler;
-import com.sej.grapes.jwt.JwtAuthenticationEntryPoint;
-import com.sej.grapes.jwt.JwtSecurityConfig;
-import com.sej.grapes.jwt.TokenProvider;
+import com.sej.grapes.security.jwt.JwtAccessDeniedHandler;
+import com.sej.grapes.security.jwt.JwtAuthenticationEntryPoint;
+import com.sej.grapes.security.jwt.JwtSecurityConfig;
+import com.sej.grapes.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,7 +26,6 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
-    private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -37,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CorsConfigurationSource corsFilter(){
+    public CorsConfigurationSource corsConfigurationSource(){
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);

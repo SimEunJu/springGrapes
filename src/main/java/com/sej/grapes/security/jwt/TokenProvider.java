@@ -1,4 +1,4 @@
-package com.sej.grapes.jwt;
+package com.sej.grapes.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -15,9 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -34,7 +32,7 @@ public class TokenProvider implements InitializingBean {
     private Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secret,
-                         @Value("${jwt.token-validity-in-seconds") long tokenValidityInSeconds){
+                         @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds){
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
     }

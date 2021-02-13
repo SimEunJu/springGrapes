@@ -1,17 +1,15 @@
 package com.sej.grapes.controller;
 
-import com.sej.grapes.config.SecurityConfig;
 import com.sej.grapes.dto.LoginDto;
 import com.sej.grapes.dto.TokenDto;
-import com.sej.grapes.jwt.JwtFilter;
-import com.sej.grapes.jwt.TokenProvider;
+import com.sej.grapes.security.jwt.JwtFilter;
+import com.sej.grapes.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;

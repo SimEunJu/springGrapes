@@ -1,4 +1,4 @@
-package com.sej.grapes.jwt;
+package com.sej.grapes.security.jwt;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

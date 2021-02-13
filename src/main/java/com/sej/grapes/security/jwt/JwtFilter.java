@@ -1,4 +1,4 @@
-package com.sej.grapes.jwt;
+package com.sej.grapes.security.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
