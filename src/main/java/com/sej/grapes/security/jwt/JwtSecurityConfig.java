@@ -8,6 +8,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @AllArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+
     private TokenProvider tokenProvider;
 
     @Override
