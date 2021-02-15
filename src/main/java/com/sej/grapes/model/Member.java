@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,14 +23,14 @@ import java.util.Set;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    @Enumerated
+    @Column(nullable = false, length = 100)
+    @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -44,7 +45,7 @@ public class Member {
     @CreatedDate
     private LocalDateTime joinDate;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private LocalDateTime updateDate;
 
     private LocalDateTime leaveDate;
