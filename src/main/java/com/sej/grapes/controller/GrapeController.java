@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/grapes/:bunchGrapesId/:grapeId")
+@RestController
+@RequestMapping("/api/grapes/{bunchGrapesId}/{grapeId}")
 @Slf4j
 @AllArgsConstructor
 public class GrapeController {
