@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +44,13 @@ public class ExceptionController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    // authorization 실패
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e){
+        log.error("BadCredentialsException", e);
+        ErrorResponse response = new ErrorResponse(ErrorCode.ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
     // 운영 시 발생하는 오류
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e){

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
 
     @Id
@@ -29,12 +31,15 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
+    private String password;
+
     @Column(nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
+    @Enumerated(EnumType.STRING)
     private Set<MemberRole> roleSet = new HashSet<>();
 
     @Column(length = 100)

@@ -27,6 +27,7 @@ public class MemberInsertTest {
         Member member = Member.builder()
                 .email("test@gmail.com")
                 .name("테스트")
+                .password(pwEncoder.encode("1234"))
                 .socialLogin(SocialLogin.GOOGLE)
                 .roleSet(roleSet)
                 .build();

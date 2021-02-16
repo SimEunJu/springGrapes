@@ -30,7 +30,7 @@ public class MemberDetailsService implements UserDetailsService {
         Member member = memberByEmail.orElseThrow(() -> new UsernameNotFoundException(username+": 일치하는 회원이 없습니다."));
         Collection<GrantedAuthority> authorities = member.getRoleSet().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_"+role.name())).collect(Collectors.toList());
-        MemberDto memberDto = new MemberDto(member.getEmail(), "", authorities);
+        MemberDto memberDto = new MemberDto(member.getEmail(), member.getPassword(), authorities);
         return memberDto;
     }
 }
