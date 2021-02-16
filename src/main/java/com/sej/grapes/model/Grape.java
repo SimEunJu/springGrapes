@@ -1,16 +1,15 @@
 package com.sej.grapes.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,18 +19,22 @@ public class Grape {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "int", nullable = false)
+    private Integer seq;
+
     @ManyToOne
-    @Column(nullable = false)
     private BunchGrapes bunchGrapes;
 
     @LastModifiedDate
-    private LocalDate updateDate;
+    private LocalDateTime updateDate;
+
+    private LocalDateTime checkedDate;
 
     @Column(columnDefinition = "boolean default false")
     private boolean isChecked;
 
     private String title;
 
-    @Lob
+    @Column(columnDefinition = "text")
     private String content;
 }

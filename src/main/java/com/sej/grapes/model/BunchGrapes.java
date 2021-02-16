@@ -1,18 +1,16 @@
 package com.sej.grapes.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,12 +20,12 @@ public class BunchGrapes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @Column(nullable = false)
-    private Long memberId;
+    @OneToMany(mappedBy = "bunchGrapes", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Grape> grapes = new ArrayList<>();
 
     @Column(columnDefinition = "boolean default false")
     private Boolean isFinished;
@@ -39,11 +37,14 @@ public class BunchGrapes {
     @Column(length = 100)
     private String title;
 
+    @Column(length = 100)
+    private String rgba;
+
     @CreatedDate
     private LocalDateTime createDate;
 
     @Column(columnDefinition = "boolean default false")
     private Boolean isDelete;
-    private LocalDateTime deleteTime;
+    private LocalDateTime deleteDate;
 
 }
