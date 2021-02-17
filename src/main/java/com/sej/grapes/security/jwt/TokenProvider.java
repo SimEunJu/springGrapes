@@ -1,5 +1,6 @@
 package com.sej.grapes.security.jwt;
 
+import com.sej.grapes.dto.MemberDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -71,7 +72,7 @@ public class TokenProvider implements InitializingBean {
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        MemberDto principal = new MemberDto(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

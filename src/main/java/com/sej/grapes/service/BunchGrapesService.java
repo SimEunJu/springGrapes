@@ -26,10 +26,10 @@ public class BunchGrapesService {
     private BunchGrapesRepository bunchGrapesRepository;
     private ModelMapper mapper;
 
-    public Long create(long memberId, int grapesDepth){
+    public Long create(String memberEmail, int grapesDepth){
         // TODO: security context에 있는 MemberDto를 활용할 수는 없을까
         Member member = Member.builder()
-                .id(memberId)
+                .email(memberEmail)
                 .build();
 
         List<Grape> grapes = new ArrayList<>();

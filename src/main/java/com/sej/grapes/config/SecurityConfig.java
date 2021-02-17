@@ -1,11 +1,11 @@
 package com.sej.grapes.config;
 
-import com.sej.grapes.security.jwt.JwtAccessDeniedHandler;
-import com.sej.grapes.security.jwt.JwtAuthenticationEntryPoint;
-import com.sej.grapes.security.jwt.JwtSecurityConfig;
-import com.sej.grapes.security.jwt.TokenProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sej.grapes.dto.TokenDto;
+import com.sej.grapes.security.jwt.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,13 +13,20 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +63,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        // TODO: authentication filter를 따로 만드는게 좋을 듯
+        // authentication filter-토큰 발급, authorization filter-토큰 인증
+        return new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                String jwt = tokenProvider.createToken(authentication);
+                ObjectMapper objectMapper = new ObjectMapper();
+                response.setHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer "+jwt);
+                objectMapper.writeValue(response.getOutputStream(), new TokenDto(jwt));
+            }
+        };
+
+    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
@@ -85,16 +108,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
+                .formLogin()
+                .loginProcessingUrl("/api/authenticate")
+                .successHandler(authenticationSuccessHandler())
+
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
-                //.antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
 
                 //.and()
                 //.oauth2Login()
-
-                //.and()
-                //.formLogin()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));

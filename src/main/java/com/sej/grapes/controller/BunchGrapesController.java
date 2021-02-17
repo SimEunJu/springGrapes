@@ -23,7 +23,7 @@ public class BunchGrapesController {
     @PostMapping("/new")
     public ResponseEntity<Long> createNewGrapes(@AuthenticationPrincipal MemberDto memberDto,
                                             @RequestParam Integer depth){
-        Long bunchGrapesId = bunchGrapesService.create(memberDto.getId(), depth);
+        Long bunchGrapesId = bunchGrapesService.create(memberDto.getEmail(), depth);
         return ResponseEntity.ok(bunchGrapesId);
     }
 

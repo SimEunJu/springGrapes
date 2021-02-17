@@ -32,6 +32,7 @@ public class JwtFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.debug("Security Context에 '{}' 인증 정보 저장, uri: {}", authentication.getName(), requestURI);
         }else{
+            // TODO: 로그인 하는 경우 제외하고 토큰 없으면 리다이렉션 해야 해야 하지 않을까
             log.debug("유요한 JWT 토큰이 없음, uri: {}", requestURI);
         }
 

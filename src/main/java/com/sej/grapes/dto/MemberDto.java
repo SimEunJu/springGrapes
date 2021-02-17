@@ -12,19 +12,18 @@ import java.util.Collection;
 @Setter
 public class MemberDto extends User {
 
-    private Long id;
     private String email;
     private SocialLogin socialLogin;
 
     public MemberDto(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+        this.email = username;
     }
 
     // username == id
-    public MemberDto(String username, String password, Long id, SocialLogin socialLogin,
+    public MemberDto(String username, String password, SocialLogin socialLogin,
                      Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
-        this.id = id;
         this.email = username;
         this.socialLogin = socialLogin;
     }
