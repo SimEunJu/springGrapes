@@ -29,6 +29,7 @@ public class ExceptionController {
     }
 
     // @RequestBody에서 parameter object로 convert 실패
+    // request parameter 값이 없을 때
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
         log.error("HttpMessageNotReadableException : "+e.getMessage(), e);
@@ -40,7 +41,7 @@ public class ExceptionController {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
         log.error("HttpRequestMethodNotSupportedException", e);
-        ErrorResponse response = new ErrorResponse(ErrorCode.MISSING_REQUIRED_INPUT_VALUE);
+        ErrorResponse response = new ErrorResponse(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -51,6 +52,7 @@ public class ExceptionController {
         ErrorResponse response = new ErrorResponse(ErrorCode.ACCESS_DENIED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
+
     // 운영 시 발생하는 오류
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e){

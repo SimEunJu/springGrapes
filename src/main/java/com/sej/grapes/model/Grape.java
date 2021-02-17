@@ -24,7 +24,7 @@ public class Grape {
     @Column(columnDefinition = "int", nullable = false)
     private Integer seq;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private BunchGrapes bunchGrapes;
 
     @LastModifiedDate

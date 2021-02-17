@@ -22,10 +22,10 @@ public class BunchGrapes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member member;
 
-    @OneToMany(mappedBy = "bunchGrapes", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bunchGrapes")
     @Builder.Default
     private List<Grape> grapes = new ArrayList<>();
 

@@ -36,9 +36,10 @@ public class BunchGrapesService {
 
         int totalCnt = (grapesDepth*(grapesDepth+1)) / 2;
 
-        IntStream.rangeClosed(0, totalCnt).forEach((idx) -> {
+        IntStream.range(0, totalCnt).forEach((idx) -> {
             Grape grape = Grape.builder()
                     .seq(idx)
+                    .isChecked(false)
                     .build();
             grapes.add(grape);
         });
@@ -47,6 +48,8 @@ public class BunchGrapesService {
                 .member(member)
                 .depth(grapesDepth)
                 .grapes(grapes)
+                .isDelete(false)
+                .isFinished(false)
                 .build();
         bunchGrapesRepository.save(bunchGrapes);
 

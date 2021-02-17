@@ -35,6 +35,7 @@ public class BunchGrapesDto{
             grapes.add(grapeDto);
         });
         return BunchGrapesDto.builder()
+                .id(bunchGrapes.getId())
                 .depth(bunchGrapes.getDepth())
                 .title(bunchGrapes.getTitle())
                 .grapes(grapes)

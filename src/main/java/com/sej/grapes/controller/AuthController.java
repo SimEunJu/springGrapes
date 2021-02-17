@@ -27,7 +27,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     /*
-    @PostMapping("/authenticate")
+    @GetMapping("/authenticate")
     public ResponseEntity<TokenDto> authenticate(@Valid LoginDto loginDto,
                                                  Authentication authentication){
         /*

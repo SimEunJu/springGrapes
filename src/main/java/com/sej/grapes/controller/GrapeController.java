@@ -1,5 +1,6 @@
 package com.sej.grapes.controller;
 
+import com.sej.grapes.dto.GrapeDto;
 import com.sej.grapes.service.GrapeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,16 +16,17 @@ public class GrapeController {
 
     private GrapeService grapeService;
 
-    @PostMapping
+    @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public void changeGrapeContent(@PathVariable Long grapeId,
                                    @RequestParam(required = false) String title, @RequestParam(required = false) String content){
         grapeService.changeContent(grapeId, title, content);
     }
 
-    @PostMapping("/check")
+    @PatchMapping("/check")
     @ResponseStatus(HttpStatus.OK)
-    public void changeCheckedStatus(@PathVariable Long grapeId){
+    public Long changeCheckedStatus(@PathVariable Long grapeId){
         grapeService.changeCheckedStatus(grapeId);
+        return grapeId;
     }
 }
