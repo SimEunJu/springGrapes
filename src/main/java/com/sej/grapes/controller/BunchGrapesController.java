@@ -2,7 +2,6 @@ package com.sej.grapes.controller;
 
 import com.sej.grapes.dto.BunchGrapesDto;
 import com.sej.grapes.dto.MemberDto;
-import com.sej.grapes.dto.req.grape.GrapeDto;
 import com.sej.grapes.service.BunchGrapesService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -11,10 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Map;
 
 @RestController

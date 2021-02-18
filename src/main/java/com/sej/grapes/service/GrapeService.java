@@ -1,8 +1,7 @@
 package com.sej.grapes.service;
 
-import com.sej.grapes.dto.req.grape.GrapeDto;
+import com.sej.grapes.dto.GrapeDto;
 import com.sej.grapes.error.exception.NoSuchResourceException;
-import com.sej.grapes.model.BunchGrapes;
 import com.sej.grapes.model.Grape;
 import com.sej.grapes.repository.GrapeRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,11 @@ import java.util.Optional;
 public class GrapeService {
 
     private GrapeRepository grapeRepository;
-    private ModelMapper modelMapper;
+
+    public Grape getGrape(long grapeId){
+        Grape grape = findGrapeById(grapeId);
+        return grape;
+    }
 
     public Grape changeContent(long grapeId, GrapeDto grapeDto){
         Grape grape = findGrapeById(grapeId);
