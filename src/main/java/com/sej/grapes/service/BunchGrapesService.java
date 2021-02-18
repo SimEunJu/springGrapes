@@ -8,6 +8,7 @@ import com.sej.grapes.model.Member;
 import com.sej.grapes.repository.BunchGrapesRepository;
 import com.sej.grapes.repository.GrapeRepository;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,14 @@ public class BunchGrapesService {
     public void updateRgba(long bunchGrapesId, String rgba){
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
+        //bunchGrapesRepository.save(bunchGrapes);
+    }
+
+    public void finish(long bunchGrapesId, String rgba){
+        BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
+        bunchGrapes.setRgba(rgba);
+        bunchGrapes.setIsFinished(true);
+        bunchGrapes.setFinishDate(LocalDateTime.now());
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
