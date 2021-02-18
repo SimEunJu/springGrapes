@@ -24,16 +24,16 @@ public class ExceptionController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
         log.error("MethodArgumentNotValidException", e);
-        ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_INPUT_VALUE, e.getFieldErrors());
+        ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_REQUEST_VALUE, e.getFieldErrors());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // @RequestBody에서 parameter object로 convert 실패
-    // request parameter 값이 없을 때
+    // request json이 아예 존재하지 않을 때
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
         log.error("HttpMessageNotReadableException : "+e.getMessage(), e);
-        ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_INPUT_VALUE);
+        ErrorResponse response = new ErrorResponse(ErrorCode.MISSING_REQUEST_VALUE);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -45,11 +45,11 @@ public class ExceptionController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // authorization 실패
+    // authentication 실패
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e){
         log.error("BadCredentialsException", e);
-        ErrorResponse response = new ErrorResponse(ErrorCode.ACCESS_DENIED);
+        ErrorResponse response = new ErrorResponse(ErrorCode.AUTHENTICATION_FAIL);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 

@@ -1,9 +1,6 @@
 package com.sej.grapes.error;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.FieldError;
 
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import java.util.List;
 @Builder
 @ToString
 @Getter
+@Setter
 public class ErrorResponse {
 
     private String code;

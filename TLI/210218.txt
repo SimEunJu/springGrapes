@@ -1,0 +1,4 @@
+A Claims JWS is a JWT with a Claims body that has been cryptographically signed.
+
+https://www.devglan.com/spring-security/exception-handling-in-spring-security#/google_vignette
+https://www.devglan.com/spring-security/spring-boot-jwt-auth

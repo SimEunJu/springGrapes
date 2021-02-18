@@ -6,17 +6,15 @@ import com.sej.grapes.model.BunchGrapes;
 import com.sej.grapes.model.Grape;
 import com.sej.grapes.model.Member;
 import com.sej.grapes.repository.BunchGrapesRepository;
+import com.sej.grapes.repository.GrapeRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +22,7 @@ import java.util.stream.LongStream;
 public class BunchGrapesService {
 
     private BunchGrapesRepository bunchGrapesRepository;
+    private GrapeRepository grapeRepository;
     private ModelMapper mapper;
 
     public Long create(String memberEmail, int grapesDepth){
@@ -32,26 +31,24 @@ public class BunchGrapesService {
                 .email(memberEmail)
                 .build();
 
-        List<Grape> grapes = new ArrayList<>();
+        BunchGrapes bunchGrapes = BunchGrapes.builder()
+                .member(member)
+                .depth(grapesDepth)
+                .isDelete(false)
+                .isFinished(false)
+                .build();
+        bunchGrapesRepository.save(bunchGrapes);
 
         int totalCnt = (grapesDepth*(grapesDepth+1)) / 2;
 
         IntStream.range(0, totalCnt).forEach((idx) -> {
             Grape grape = Grape.builder()
                     .seq(idx)
+                    .bunchGrapes(bunchGrapes)
                     .isChecked(false)
                     .build();
-            grapes.add(grape);
+            grapeRepository.save(grape);
         });
-
-        BunchGrapes bunchGrapes = BunchGrapes.builder()
-                .member(member)
-                .depth(grapesDepth)
-                .grapes(grapes)
-                .isDelete(false)
-                .isFinished(false)
-                .build();
-        bunchGrapesRepository.save(bunchGrapes);
 
         return bunchGrapes.getId();
     }
@@ -66,26 +63,26 @@ public class BunchGrapesService {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setIsDelete(true);
         bunchGrapes.setDeleteDate(LocalDateTime.now());
-        bunchGrapesRepository.save(bunchGrapes);
+        //bunchGrapesRepository.save(bunchGrapes);
     }
 
     public void updateRgba(long bunchGrapesId, String rgba){
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
-        bunchGrapesRepository.save(bunchGrapes);
+        //bunchGrapesRepository.save(bunchGrapes);
     }
 
     public void updateTitle(long bunchGrapesId, String title){
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setTitle(title);
-        bunchGrapesRepository.save(bunchGrapes);
+        //bunchGrapesRepository.save(bunchGrapes);
     }
 
     public void updateFinishState(long bunchGrapesId){
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setIsFinished(true);
         bunchGrapes.setFinishDate(LocalDateTime.now());
-        bunchGrapesRepository.save(bunchGrapes);
+        //bunchGrapesRepository.save(bunchGrapes);
     }
 
     private BunchGrapes findBunchGrapesById(long bunchGrapesId){

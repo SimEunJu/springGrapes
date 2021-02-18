@@ -5,12 +5,15 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
-    INVALID_INPUT_VALUE(400, "C001", " Invalid Input Value"),
+    INVALID_REQUEST_VALUE(400, "C001", " Invalid Request Value"),
     METHOD_NOT_ALLOWED(405, "C002", " Method Not Allowed"),
-    MISSING_REQUIRED_INPUT_VALUE(400, "C003", "Missing Required Input Value"),
+    MISSING_REQUEST_VALUE(400, "C003", "Missing Request Value"),
+
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     REQUEST_RESOURCE_NOT_EXIST(404, "C005", "Request Resource Is Not Exist"),
-    ACCESS_DENIED(403, "C006", "Access is Denied");
+
+    ACCESS_DENIED(401, "C006", "Access is Denied"),
+    AUTHENTICATION_FAIL(401, "C007", "Authentication Fail");
 
     private int status;
     private String code;

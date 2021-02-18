@@ -1,5 +1,6 @@
 package com.sej.grapes.service;
 
+import com.sej.grapes.dto.req.grape.GrapeDto;
 import com.sej.grapes.error.exception.NoSuchResourceException;
 import com.sej.grapes.model.BunchGrapes;
 import com.sej.grapes.model.Grape;
@@ -20,11 +21,12 @@ public class GrapeService {
     private GrapeRepository grapeRepository;
     private ModelMapper modelMapper;
 
-    public void changeContent(long grapeId, String title, String content){
+    public Grape changeContent(long grapeId, GrapeDto grapeDto){
         Grape grape = findGrapeById(grapeId);
-        grape.setTitle(title);
-        grape.setContent(content);
+        grape.setTitle(grapeDto.getTitle());
+        grape.setContent(grapeDto.getContent());
         grapeRepository.save(grape);
+        return grape;
     }
 
     public void changeCheckedStatus(long grapeId){

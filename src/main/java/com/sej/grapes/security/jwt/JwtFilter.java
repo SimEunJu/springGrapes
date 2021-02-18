@@ -2,6 +2,9 @@ package com.sej.grapes.security.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.authentication.AuthenticationManagerFactoryBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -22,7 +25,7 @@ public class JwtFilter extends GenericFilterBean {
     private TokenProvider tokenProvider;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException{
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
@@ -35,7 +38,6 @@ public class JwtFilter extends GenericFilterBean {
             // TODO: 로그인 하는 경우 제외하고 토큰 없으면 리다이렉션 해야 해야 하지 않을까
             log.debug("유요한 JWT 토큰이 없음, uri: {}", requestURI);
         }
-
         chain.doFilter(request, response);
     }
 

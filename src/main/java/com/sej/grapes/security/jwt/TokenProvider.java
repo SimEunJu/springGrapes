@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -77,19 +78,36 @@ public class TokenProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    // @reference http://javadox.com/io.jsonwebtoken/jjwt/0.4/io/jsonwebtoken/JwtParser.html#parseClaimsJws-java.lang.String-
     public boolean validateToken(String token){
+        String errorMsg = "";
+        Throwable cause = null;
         try{
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        }catch (SecurityException | MalformedJwtException e){
-            log.info("잘못된 JWT 서명");
+        }catch (MalformedJwtException e){
+            //if the claimsJws string is not a valid JWS
+            errorMsg = "올바른 JWT 형식이 아닙니다.";
+            cause = e;
         }catch (ExpiredJwtException e){
-            log.info("만료된 JWT 토큰");
+            //if the specified JWT is a Claims JWT and the Claims has an expiration time before the time this method is invoked.
+            errorMsg = "만료된 JWT 입니다.";
+            cause = e;
         }catch (UnsupportedJwtException e){
-            log.info("지원되지 않는 JWT 토큰");
+            //if the claimsJws argument does not represent an Claims JWS
+            errorMsg = "올바른 claim이 아닙니다.";
+            cause = e;
         }catch (IllegalArgumentException e){
-            log.info("JWT 토큰이 잘못");
+            //if the claimsJws string is null or empty or only whitespace
+            errorMsg = "claim이 없습니다.";
+            cause = e;
+        }catch (SecurityException e){
+            //if the plaintextJwt string is actually a JWS and signature validation fails
+            errorMsg = "JWT 인증에 실패했습니다.";
+            cause = e;
         }
+        log.error(errorMsg);
+        //throw new AccessDeniedException(errorMsg, cause);
         return false;
     }
 }
