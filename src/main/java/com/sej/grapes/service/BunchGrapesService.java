@@ -1,20 +1,29 @@
 package com.sej.grapes.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.sej.grapes.dto.BunchGrapesDto;
+import com.sej.grapes.dto.MemberDto;
+import com.sej.grapes.dto.PageRequestDto;
+import com.sej.grapes.dto.PageResultDto;
 import com.sej.grapes.error.exception.NoSuchResourceException;
-import com.sej.grapes.model.BunchGrapes;
-import com.sej.grapes.model.Grape;
-import com.sej.grapes.model.Member;
+import com.sej.grapes.model.*;
 import com.sej.grapes.repository.BunchGrapesRepository;
 import com.sej.grapes.repository.GrapeRepository;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 @Service
@@ -73,22 +82,15 @@ public class BunchGrapesService {
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    public void finish(long bunchGrapesId, String rgba){
-        BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
-        bunchGrapes.setRgba(rgba);
-        bunchGrapes.setIsFinished(true);
-        bunchGrapes.setFinishDate(LocalDateTime.now());
-        //bunchGrapesRepository.save(bunchGrapes);
-    }
-
     public void updateTitle(long bunchGrapesId, String title){
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setTitle(title);
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    public void updateFinishState(long bunchGrapesId){
+    public void updateFinishState(long bunchGrapesId, String rgba){
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
+        bunchGrapes.setRgba(rgba);
         bunchGrapes.setIsFinished(true);
         bunchGrapes.setFinishDate(LocalDateTime.now());
         //bunchGrapesRepository.save(bunchGrapes);
@@ -100,4 +102,22 @@ public class BunchGrapesService {
                 .orElseThrow(() -> new NoSuchResourceException(bunchGrapesId + ": 해당 grapes는 존재하지 않습니다."));
         return bunchGrapes;
     }
+
+    public PageResultDto<BunchGrapesDto, BunchGrapes> getBunchGrapesList(String memberEmail, PageRequestDto pageRequestDto){
+        Pageable pageable = pageRequestDto.getPageable(Sort.by("id").descending());
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QBunchGrapes qBunchGrapes = QBunchGrapes.bunchGrapes;
+
+        BooleanExpression notDelete =  qBunchGrapes.isDelete.eq(false);
+        BooleanExpression sameEmail = qBunchGrapes.member.email.eq(memberEmail);
+
+        booleanBuilder.and(notDelete.and(sameEmail));
+
+        Page<BunchGrapes> result = bunchGrapesRepository.findAll(booleanBuilder, pageable);
+        Function<BunchGrapes, BunchGrapesDto> fn = BunchGrapesDto::convertToDto;
+
+        return new PageResultDto<>(result, fn);
+    }
+
 }

@@ -2,7 +2,11 @@ package com.sej.grapes.controller;
 
 import com.sej.grapes.dto.BunchGrapesDto;
 import com.sej.grapes.dto.MemberDto;
+import com.sej.grapes.dto.PageRequestDto;
+import com.sej.grapes.dto.PageResultDto;
+import com.sej.grapes.model.BunchGrapes;
 import com.sej.grapes.service.BunchGrapesService;
+import com.sun.mail.iap.Response;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -58,10 +64,19 @@ public class BunchGrapesController {
 
     @PatchMapping("/{bunchGrapesId}/finish")
     @ResponseStatus(HttpStatus.OK)
-    public void changeFinishStatus(@PathVariable Long bunchGrapesId){
-        bunchGrapesService.updateFinishState(bunchGrapesId);
+    public void changeFinishStatus(@PathVariable Long bunchGrapesId,
+                                   @RequestBody Map<String, String> json){
+        @NonNull String rgba = json.get("rgba");
+        bunchGrapesService.updateFinishState(bunchGrapesId, rgba);
     }
 
 
+    @GetMapping("/list")
+    public ResponseEntity<PageResultDto> getBunchGrapesList(@AuthenticationPrincipal MemberDto memberDto,
+                                                                   PageRequestDto pageRequestDto){
+        PageResultDto<BunchGrapesDto, BunchGrapes> pageResultDto
+                = bunchGrapesService.getBunchGrapesList(memberDto.getEmail(), pageRequestDto);
+        return ResponseEntity.ok(pageResultDto);
+    }
 
 }
