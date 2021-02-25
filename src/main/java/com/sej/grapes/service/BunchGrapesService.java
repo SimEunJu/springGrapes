@@ -2,10 +2,7 @@ package com.sej.grapes.service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.sej.grapes.dto.BunchGrapesDto;
-import com.sej.grapes.dto.MemberDto;
-import com.sej.grapes.dto.PageRequestDto;
-import com.sej.grapes.dto.PageResultDto;
+import com.sej.grapes.dto.*;
 import com.sej.grapes.error.exception.NoSuchResourceException;
 import com.sej.grapes.model.*;
 import com.sej.grapes.repository.BunchGrapesRepository;
@@ -64,9 +61,12 @@ public class BunchGrapesService {
     }
 
     public BunchGrapesDto getBunchGrapesById(long bunchGrapesId){
-        // 어떻게 가져올 것인가
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
-        return BunchGrapesDto.convertToDto(bunchGrapes);
+        BunchGrapesDto bunchGrapesDto = BunchGrapesDto.convertToDto(bunchGrapes);
+        List<Grape> grapes = bunchGrapes.getGrapes();
+        List<GrapeDto> grapesDto = BunchGrapesDto.convertGrapeListToDto(grapes);
+        bunchGrapesDto.setGrapes(grapesDto);
+        return bunchGrapesDto;
     }
 
     public void delete(long bunchGrapesId){
@@ -109,7 +109,7 @@ public class BunchGrapesService {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         QBunchGrapes qBunchGrapes = QBunchGrapes.bunchGrapes;
 
-        BooleanExpression notDelete =  qBunchGrapes.isDelete.eq(false);
+        BooleanExpression notDelete = qBunchGrapes.isDelete.eq(false);
         BooleanExpression sameEmail = qBunchGrapes.member.email.eq(memberEmail);
 
         booleanBuilder.and(notDelete.and(sameEmail));

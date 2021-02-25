@@ -29,7 +29,7 @@ public class BunchGrapesController {
     private BunchGrapesService bunchGrapesService;
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> createNewGrapes(@AuthenticationPrincipal MemberDto memberDto,
+    public ResponseEntity<Long> createNewBunchGrapes(@AuthenticationPrincipal MemberDto memberDto,
                                             @RequestBody Map<String, Integer> json){
         int depth = json.get("depth");
         Long bunchGrapesId = bunchGrapesService.create(memberDto.getEmail(), depth);

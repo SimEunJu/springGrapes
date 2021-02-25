@@ -17,10 +17,11 @@ public class PageResultDto<Dto, En> {
     private int totalPages;
     private int page;
     private int size;
-    private int start, end;
-    private boolean prev, next;
+    private boolean hasNext;
+    //private int start, end;
+    //private boolean prev, next;
 
-    private List<Integer> pageList;
+    //private List<Integer> pageList;
 
     public PageResultDto(Page<En> result, Function<En, Dto> fn){
         dtoList = result.stream().map(fn).collect(Collectors.toList());
@@ -32,14 +33,16 @@ public class PageResultDto<Dto, En> {
         page = pageable.getPageNumber() + 1;
         size = pageable.getPageSize();
 
-        int tempEnd = (int)(Math.ceil(page/size)) * 10;
-        end = tempEnd > totalPages ? totalPages : tempEnd;
-        start = end - size + 1;
+        //int tempEnd = (int)(Math.ceil((double)page/size)) * 10;
+        //end = tempEnd > totalPages ? totalPages : tempEnd;
+        //start = tempEnd - size + 1;
 
-        prev = start > 1;
-        next = end < totalPages;
+        //prev = start > 1;
+        //next = end < totalPages;
 
-        pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+        hasNext = page < totalPages;
+
+        //pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
     }
 
 }

@@ -18,10 +18,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        // sendError를 상단에 위치시켜야 함
+        // 아래에서 writeValue를 완료한 순간 response write가 완료되어 더 이상 쓸 수 없기 때문
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.AUTHENTICATION_FAIL);
         OutputStream out = response.getOutputStream();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(out, errorResponse);
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

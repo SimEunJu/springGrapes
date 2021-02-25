@@ -22,7 +22,7 @@ public class BunchGrapes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bunchGrapes")
