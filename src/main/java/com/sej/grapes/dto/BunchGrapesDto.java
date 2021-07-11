@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BunchGrapesDto{
+public class BunchGrapesDto {
 
     private long id;
     private int depth;
@@ -27,7 +27,7 @@ public class BunchGrapesDto{
     private LocalDateTime finishDate;
 
     // TODO: 이 친구는 GrapeDto에 있어야 하나
-    public static List<GrapeDto> convertGrapeListToDto(List<Grape> grapesList){
+    public static List<GrapeDto> convertGrapeListToDto(List<Grape> grapesList) {
         List<GrapeDto> grapes = new ArrayList<>();
         grapesList.stream().forEach((grape) -> {
             GrapeDto grapeDto = GrapeDto.builder()
@@ -39,8 +39,9 @@ public class BunchGrapesDto{
         });
         return grapes;
     }
+
     // TODO: 분리해야 하나
-    public static BunchGrapesDto convertToDto(BunchGrapes bunchGrapes){
+    public static BunchGrapesDto convertToDto(BunchGrapes bunchGrapes) {
         return BunchGrapesDto.builder()
                 .id(bunchGrapes.getId())
                 .depth(bunchGrapes.getDepth())

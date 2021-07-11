@@ -21,7 +21,7 @@ public class GrapeDto {
     private String title;
     private String content;
 
-    public static GrapeDto convertToDto(Grape grape){
+    public static GrapeDto convertToDto(Grape grape) {
         return GrapeDto.builder()
                 .id(grape.getId())
                 .seq(grape.getSeq())

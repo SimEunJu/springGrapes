@@ -22,7 +22,7 @@ public class ExceptionController {
 
     // @Valid 실패 시
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException", e);
         ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_REQUEST_VALUE, e.getFieldErrors());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -31,15 +31,15 @@ public class ExceptionController {
     // @RequestBody에서 parameter object로 convert 실패
     // request json이 아예 존재하지 않을 때
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
-        log.error("HttpMessageNotReadableException : "+e.getMessage(), e);
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.error("HttpMessageNotReadableException : " + e.getMessage(), e);
         ErrorResponse response = new ErrorResponse(ErrorCode.MISSING_REQUEST_VALUE);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // @RequestMapping에 해당되는 메소드 없을 때
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorResponse> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
+    public ResponseEntity<ErrorResponse> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("HttpRequestMethodNotSupportedException", e);
         ErrorResponse response = new ErrorResponse(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -47,7 +47,7 @@ public class ExceptionController {
 
     // authentication 실패
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e){
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         log.error("BadCredentialsException", e);
         ErrorResponse response = new ErrorResponse(ErrorCode.AUTHENTICATION_FAIL);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
@@ -55,7 +55,7 @@ public class ExceptionController {
 
     // 운영 시 발생하는 오류
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e){
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
         log.error("BusinessException", e);
         ErrorCode errorCode = e.getErrorCode();
         ErrorResponse response = new ErrorResponse(errorCode);
@@ -64,7 +64,7 @@ public class ExceptionController {
 
     // 기타 오류
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e){
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Exception", e);
         ErrorResponse response = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

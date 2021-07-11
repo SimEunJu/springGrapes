@@ -18,14 +18,14 @@ public class ErrorResponse {
     private String message;
     private List<FieldError> errors;
 
-    public ErrorResponse(ErrorCode errorCode){
+    public ErrorResponse(ErrorCode errorCode) {
         this.code = errorCode.getCode();
         this.status = errorCode.getStatus();
         this.message = errorCode.getMessage();
         this.errors = new ArrayList<>();
     }
 
-    public ErrorResponse(ErrorCode errorCode, List<FieldError> errors){
+    public ErrorResponse(ErrorCode errorCode, List<FieldError> errors) {
         this.code = errorCode.getCode();
         this.status = errorCode.getStatus();
         this.message = errorCode.getMessage();

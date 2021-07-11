@@ -47,6 +47,7 @@ public class BunchGrapes {
 
     @Column(columnDefinition = "boolean default false")
     private Boolean isDelete;
+
     private LocalDateTime deleteDate;
 
 }

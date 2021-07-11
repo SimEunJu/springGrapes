@@ -8,12 +8,11 @@ import com.sej.grapes.model.*;
 import com.sej.grapes.repository.BunchGrapesRepository;
 import com.sej.grapes.repository.GrapeRepository;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.jni.Local;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,15 +23,15 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class BunchGrapesService {
 
-    private BunchGrapesRepository bunchGrapesRepository;
-    private GrapeRepository grapeRepository;
-    private ModelMapper mapper;
+    private final BunchGrapesRepository bunchGrapesRepository;
+    private final GrapeRepository grapeRepository;
+    private final ModelMapper mapper;
 
-    public Long create(String memberEmail, int grapesDepth){
+    public Long create(String memberEmail, int grapesDepth) {
         // TODO: security context에 있는 MemberDto를 활용할 수는 없을까
         Member member = Member.builder()
                 .email(memberEmail)
@@ -46,7 +45,7 @@ public class BunchGrapesService {
                 .build();
         bunchGrapesRepository.save(bunchGrapes);
 
-        int totalCnt = (grapesDepth*(grapesDepth+1)) / 2;
+        int totalCnt = (grapesDepth * (grapesDepth + 1)) / 2;
 
         IntStream.range(0, totalCnt).forEach((idx) -> {
             Grape grape = Grape.builder()
@@ -60,7 +59,7 @@ public class BunchGrapesService {
         return bunchGrapes.getId();
     }
 
-    public BunchGrapesDto getBunchGrapesById(long bunchGrapesId){
+    public BunchGrapesDto getBunchGrapesById(long bunchGrapesId) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         BunchGrapesDto bunchGrapesDto = BunchGrapesDto.convertToDto(bunchGrapes);
         List<Grape> grapes = bunchGrapes.getGrapes();
@@ -69,26 +68,26 @@ public class BunchGrapesService {
         return bunchGrapesDto;
     }
 
-    public void delete(long bunchGrapesId){
+    public void delete(long bunchGrapesId) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setIsDelete(true);
         bunchGrapes.setDeleteDate(LocalDateTime.now());
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    public void updateRgba(long bunchGrapesId, String rgba){
+    public void updateRgba(long bunchGrapesId, String rgba) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    public void updateTitle(long bunchGrapesId, String title){
+    public void updateTitle(long bunchGrapesId, String title) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setTitle(title);
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    public void updateFinishState(long bunchGrapesId, String rgba){
+    public void updateFinishState(long bunchGrapesId, String rgba) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
         bunchGrapes.setIsFinished(true);
@@ -96,21 +95,23 @@ public class BunchGrapesService {
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    private BunchGrapes findBunchGrapesById(long bunchGrapesId){
+    private BunchGrapes findBunchGrapesById(long bunchGrapesId) {
         Optional<BunchGrapes> bunchGrapesEntity = bunchGrapesRepository.findById(bunchGrapesId);
         BunchGrapes bunchGrapes = bunchGrapesEntity
                 .orElseThrow(() -> new NoSuchResourceException(bunchGrapesId + ": 해당 grapes는 존재하지 않습니다."));
         return bunchGrapes;
     }
 
-    public PageResultDto<BunchGrapesDto, BunchGrapes> getBunchGrapesList(String memberEmail, PageRequestDto pageRequestDto){
+    public PageResultDto<BunchGrapesDto, BunchGrapes> getBunchGrapesList(String memberEmail, PageRequestDto pageRequestDto) {
         Pageable pageable = pageRequestDto.getPageable(Sort.by("id").descending());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         QBunchGrapes qBunchGrapes = QBunchGrapes.bunchGrapes;
 
         BooleanExpression notDelete = qBunchGrapes.isDelete.eq(false);
-        BooleanExpression sameEmail = qBunchGrapes.member.email.eq(memberEmail);
+
+        Member member = Member.builder().email(memberEmail).build();
+        BooleanExpression sameEmail = qBunchGrapes.member.eq(member);
 
         booleanBuilder.and(notDelete.and(sameEmail));
 

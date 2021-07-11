@@ -18,31 +18,19 @@ public class PageResultDto<Dto, En> {
     private int page;
     private int size;
     private boolean hasNext;
-    //private int start, end;
-    //private boolean prev, next;
 
-    //private List<Integer> pageList;
-
-    public PageResultDto(Page<En> result, Function<En, Dto> fn){
+    public PageResultDto(Page<En> result, Function<En, Dto> fn) {
         dtoList = result.stream().map(fn).collect(Collectors.toList());
         totalPages = result.getTotalPages();
         makePageList(result.getPageable());
     }
 
-    private void makePageList(Pageable pageable){
+    private void makePageList(Pageable pageable) {
         page = pageable.getPageNumber() + 1;
         size = pageable.getPageSize();
 
-        //int tempEnd = (int)(Math.ceil((double)page/size)) * 10;
-        //end = tempEnd > totalPages ? totalPages : tempEnd;
-        //start = tempEnd - size + 1;
-
-        //prev = start > 1;
-        //next = end < totalPages;
-
         hasNext = page < totalPages;
 
-        //pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
     }
 
 }

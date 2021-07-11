@@ -19,7 +19,7 @@ public class GrapeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GrapeDto> getGrapeContent(@PathVariable Long grapeId){
+    public ResponseEntity<GrapeDto> getGrapeContent(@PathVariable Long grapeId) {
         Grape grape = grapeService.getGrape(grapeId);
         GrapeDto grapteDTo = GrapeDto.convertToDto(grape);
         return ResponseEntity.ok(grapteDTo);
@@ -28,7 +28,7 @@ public class GrapeController {
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GrapeDto> changeGrapeContent(@PathVariable Long grapeId,
-                                                       @RequestBody GrapeDto grapeDto){
+                                                       @RequestBody GrapeDto grapeDto) {
         Grape grape = grapeService.changeContent(grapeId, grapeDto);
         GrapeDto updatedGrapteDTo = GrapeDto.convertToDto(grape);
         return ResponseEntity.ok(updatedGrapteDTo);
@@ -36,7 +36,7 @@ public class GrapeController {
 
     @PatchMapping("/check")
     @ResponseStatus(HttpStatus.OK)
-    public Long changeCheckedStatus(@PathVariable Long grapeId){
+    public Long changeCheckedStatus(@PathVariable Long grapeId) {
         grapeService.changeCheckedStatus(grapeId);
         return grapeId;
     }

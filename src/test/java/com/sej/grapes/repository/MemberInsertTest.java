@@ -22,7 +22,7 @@ public class MemberInsertTest {
     PasswordEncoder pwEncoder;
 
     @Test
-    void insertMember(){
+    void insertMember() {
         Set<MemberRole> roleSet = Collections.singleton(MemberRole.USER);
         Member member = Member.builder()
                 .email("test@gmail.com")
