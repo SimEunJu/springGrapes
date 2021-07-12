@@ -1,5 +1,6 @@
 package com.sej.grapes.controller;
 
+import com.sej.grapes.dto.GrapeChkResDto;
 import com.sej.grapes.dto.GrapeDto;
 import com.sej.grapes.model.Grape;
 import com.sej.grapes.service.GrapeService;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/grapes/{bunchGrapesId}/{grapeId}")
+@RequestMapping("/api/grapes/{bunchGrapesId}/grape/{grapeId}")
 @Slf4j
 @AllArgsConstructor
 public class GrapeController {
@@ -36,8 +37,13 @@ public class GrapeController {
 
     @PatchMapping("/check")
     @ResponseStatus(HttpStatus.OK)
-    public Long changeCheckedStatus(@PathVariable Long grapeId) {
-        grapeService.changeCheckedStatus(grapeId);
-        return grapeId;
+    public GrapeChkResDto changeCheckedStatus(@PathVariable long grapeId, @RequestBody GrapeDto grapeDto) {
+        grapeDto.setId(grapeId);
+        grapeService.changeCheckedStatus(grapeDto);
+        return GrapeChkResDto.builder()
+                .isChecked(grapeDto.isChecked())
+                .seq(grapeDto.getSeq())
+                .id(grapeDto.getId())
+                .build();
     }
 }

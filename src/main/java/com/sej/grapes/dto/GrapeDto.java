@@ -14,7 +14,7 @@ public class GrapeDto {
     private long id;
     private int seq;
 
-    @Getter(AccessLevel.NONE)
+    //@Getter(AccessLevel.NONE)
     @JsonProperty("isChecked")
     private boolean isChecked;
 

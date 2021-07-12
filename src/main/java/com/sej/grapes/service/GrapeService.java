@@ -33,9 +33,9 @@ public class GrapeService {
         return grape;
     }
 
-    public void changeCheckedStatus(long grapeId) {
-        Grape grape = findGrapeById(grapeId);
-        grape.setChecked(true);
+    public void changeCheckedStatus(GrapeDto grapeDto) {
+        Grape grape = findGrapeById(grapeDto.getId());
+        grape.setChecked(grapeDto.isChecked());
         grape.setCheckedDate(LocalDateTime.now());
         grapeRepository.save(grape);
     }
