@@ -2,6 +2,7 @@ package com.sej.grapes.dto;
 
 import com.sej.grapes.model.BunchGrapes;
 import com.sej.grapes.model.Grape;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NegativeOrZero;
@@ -16,17 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 public class BunchGrapesDto {
 
-    private long id;
-    private int depth;
-    private String title;
-    private String rgba;
+    @ApiModelProperty("포도송이 아이디") private long id;
+    @ApiModelProperty("포도송이 줄 수") private int depth;
+    @ApiModelProperty("포도송이 제목") private String title;
+    @ApiModelProperty("포도송이 완료 시 주스 색상") private String rgba;
 
-    private List<GrapeDto> grapes;
+    @ApiModelProperty("포도알 리스트") private List<GrapeDto> grapes;
 
-    private LocalDateTime createDate;
-    private LocalDateTime finishDate;
+    @ApiModelProperty("포도송이 생성날짜") private LocalDateTime createDate;
+    @ApiModelProperty("포도송이 완료날짜") private LocalDateTime finishDate;
 
-    // TODO: 이 친구는 GrapeDto에 있어야 하나
     public static List<GrapeDto> convertGrapeListToDto(List<Grape> grapesList) {
         List<GrapeDto> grapes = new ArrayList<>();
         grapesList.stream().forEach((grape) -> {
@@ -40,7 +40,6 @@ public class BunchGrapesDto {
         return grapes;
     }
 
-    // TODO: 분리해야 하나
     public static BunchGrapesDto convertToDto(BunchGrapes bunchGrapes) {
         return BunchGrapesDto.builder()
                 .id(bunchGrapes.getId())

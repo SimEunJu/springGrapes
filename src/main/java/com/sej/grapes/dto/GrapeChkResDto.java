@@ -1,6 +1,7 @@
 package com.sej.grapes.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Builder
@@ -9,11 +10,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GrapeChkResDto {
-
-    private long id;
+    
+    @ApiModelProperty("포도알 아이디") private long id;
     private int seq;
 
     @JsonProperty("isChecked")
-    private boolean isChecked;
+    @ApiModelProperty("포도알 체크 여부") private boolean isChecked;
 
 }

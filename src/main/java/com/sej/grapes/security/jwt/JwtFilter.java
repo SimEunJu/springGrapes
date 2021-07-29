@@ -49,8 +49,10 @@ public class JwtFilter extends GenericFilterBean {
 
         // 로그인 페이지 없어, 새로운 포도송이 만들 때 강제 로그인
         if("/api/grapes/new".equals(requestURI) && !StringUtils.hasText(jwt)){
+
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
             MemberDto memberDto = new MemberDto("test@gmail.com", "1234", authorities);
             Authentication authentication = new UsernamePasswordAuthenticationToken(memberDto, "1234", authorities);
 
@@ -58,6 +60,7 @@ public class JwtFilter extends GenericFilterBean {
             ((HttpServletResponse) response).setHeader(AUTHORIZATION_HEADER, "Bearer " + token);
 
             String refreshToken = refreshTokenService.createRefreshToken(memberDto.getEmail());
+
             Cookie refreshCookie = new Cookie("refresh", refreshToken);
             //refreshCookie.setSecure(true);
             refreshCookie.setHttpOnly(true);

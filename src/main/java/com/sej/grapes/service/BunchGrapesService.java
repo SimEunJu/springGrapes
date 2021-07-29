@@ -75,24 +75,27 @@ public class BunchGrapesService {
         //bunchGrapesRepository.save(bunchGrapes);
     }
 
-    public void updateRgba(long bunchGrapesId, String rgba) {
+    public String updateRgba(long bunchGrapesId, String rgba) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
-        //bunchGrapesRepository.save(bunchGrapes);
+        bunchGrapes =  bunchGrapesRepository.save(bunchGrapes);
+        return bunchGrapes.getRgba();
     }
 
-    public void updateTitle(long bunchGrapesId, String title) {
+    public String updateTitle(long bunchGrapesId, String title) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setTitle(title);
-        //bunchGrapesRepository.save(bunchGrapes);
+        bunchGrapes = bunchGrapesRepository.save(bunchGrapes);
+        return bunchGrapes.getTitle();
     }
 
-    public void updateFinishState(long bunchGrapesId, String rgba) {
+    public String updateFinishState(long bunchGrapesId, String rgba) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
         bunchGrapes.setIsFinished(true);
         bunchGrapes.setFinishDate(LocalDateTime.now());
-        //bunchGrapesRepository.save(bunchGrapes);
+        bunchGrapes = bunchGrapesRepository.save(bunchGrapes);
+        return bunchGrapes.getRgba();
     }
 
     private BunchGrapes findBunchGrapesById(long bunchGrapesId) {

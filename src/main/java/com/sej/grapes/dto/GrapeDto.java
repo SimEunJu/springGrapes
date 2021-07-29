@@ -2,6 +2,7 @@ package com.sej.grapes.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sej.grapes.model.Grape;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Builder
@@ -11,15 +12,14 @@ import lombok.*;
 @AllArgsConstructor
 public class GrapeDto {
 
-    private long id;
-    private int seq;
+    @ApiModelProperty("포도알 아이디") private long id;
+    @ApiModelProperty("포도알 순서") private int seq;
 
-    //@Getter(AccessLevel.NONE)
     @JsonProperty("isChecked")
-    private boolean isChecked;
+    @ApiModelProperty("포도알 체크 여부") private boolean isChecked;
 
-    private String title;
-    private String content;
+    @ApiModelProperty("포도알 제목") private String title;
+    @ApiModelProperty("포도알 내용") private String content;
 
     public static GrapeDto convertToDto(Grape grape) {
         return GrapeDto.builder()

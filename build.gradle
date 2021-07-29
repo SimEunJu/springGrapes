@@ -26,9 +26,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -38,10 +39,10 @@ dependencies {
     runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
+
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
     implementation 'com.querydsl:querydsl-jpa'
 }
 
