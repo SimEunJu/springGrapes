@@ -100,10 +100,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/authenticate").anonymous()
                 .antMatchers("/swagger-ui/**").anonymous()
                 .anyRequest().authenticated()
-                ;
 
-                //.and()
-                //.apply(new JwtSecurityConfig(tokenProvider, refreshTokenService));
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider, refreshTokenService));
     }
 
 }
