@@ -22,21 +22,21 @@ public class BunchGrapes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bunchGrapes")
     @Builder.Default
     private List<Grape> grapes = new ArrayList<>();
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean isFinished;
+    private boolean isFinished;
+
     private LocalDateTime finishDate;
 
     @Column(nullable = false)
     private Integer depth;
 
-    @Column(length = 100)
+    @Column(columnDefinition = "text")
     private String title;
 
     @Column(length = 100)

@@ -35,6 +35,7 @@ public class Grape {
     @Column(columnDefinition = "boolean default false")
     private boolean isChecked;
 
+    @Column(columnDefinition = "text")
     private String title;
 
     @Column(columnDefinition = "text")
