@@ -27,7 +27,7 @@ public class BunchGrapesController {
     private final BunchGrapesService bunchGrapesService;
 
     @ApiOperation(value = "새로운 포도송이를 만든다", response = BunchGrapesCreateResDto.class)
-    @PostMapping(value = "/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BunchGrapesCreateResDto createNewBunchGrapes(@ApiIgnore @AuthenticationPrincipal MemberDto memberDto,
                                                                     HttpServletResponse res,
@@ -82,7 +82,7 @@ public class BunchGrapesController {
     }
 
     @ApiOperation(value = "포도송이 리스트를 불러온다", response = PageResultDto.class)
-    @GetMapping("/list")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PageResultDto getBunchGrapesList(@ApiIgnore @AuthenticationPrincipal MemberDto memberDto,
                                                             PageRequestDto pageRequestDto) {
