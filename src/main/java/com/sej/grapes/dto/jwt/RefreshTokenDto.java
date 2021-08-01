@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class RefreshTokenDto {
     private String accessToken;
+    @Builder.Default
     private String type = "Bearer";
     private String refreshToken;
 }

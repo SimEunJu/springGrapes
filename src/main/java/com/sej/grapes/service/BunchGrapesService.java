@@ -70,7 +70,7 @@ public class BunchGrapesService {
 
     public void delete(long bunchGrapesId) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
-        bunchGrapes.setIsDelete(true);
+        bunchGrapes.setDelete(true);
         bunchGrapes.setDeleteDate(LocalDateTime.now());
         //bunchGrapesRepository.save(bunchGrapes);
     }
@@ -92,7 +92,7 @@ public class BunchGrapesService {
     public String updateFinishState(long bunchGrapesId, String rgba) {
         BunchGrapes bunchGrapes = findBunchGrapesById(bunchGrapesId);
         bunchGrapes.setRgba(rgba);
-        bunchGrapes.setIsFinished(true);
+        bunchGrapes.setFinished(true);
         bunchGrapes.setFinishDate(LocalDateTime.now());
         bunchGrapes = bunchGrapesRepository.save(bunchGrapes);
         return bunchGrapes.getRgba();

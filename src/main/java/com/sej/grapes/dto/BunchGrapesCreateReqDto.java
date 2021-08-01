@@ -12,5 +12,5 @@ import lombok.Setter;
 public class BunchGrapesCreateReqDto {
     
     @ApiModelProperty("포도송이가 몇 줄인지")
-    @NonNull int depth;
+    private Integer depth;
 }

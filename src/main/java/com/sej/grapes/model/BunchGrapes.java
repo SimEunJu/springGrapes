@@ -45,8 +45,7 @@ public class BunchGrapes {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean isDelete;
+    private boolean isDelete;
 
     private LocalDateTime deleteDate;
 

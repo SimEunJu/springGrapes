@@ -10,6 +10,8 @@ import lombok.*;
 public class TokenDto {
 
     private String accessToken;
+
+    @Builder.Default
     private String type = "Bearer";
     private String refreshToken;
 

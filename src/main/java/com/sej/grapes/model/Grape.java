@@ -32,7 +32,6 @@ public class Grape {
 
     private LocalDateTime checkedDate;
 
-    @Column(columnDefinition = "boolean default false")
     private boolean isChecked;
 
     @Column(columnDefinition = "text")
